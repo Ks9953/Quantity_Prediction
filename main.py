@@ -4,13 +4,15 @@ import numpy as np
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
-import io
+import os
 
-# Streamlit file uploader
-uploaded_file = st.file_uploader("Upload your Excel file", type=["xlsx"])
+# Define the file path relative to the script
+file_path = 'Coal_Data.xlsx'
 
-if uploaded_file is not None:
-    data = pd.read_excel(uploaded_file)
+# Check if the file exists
+if os.path.exists(file_path):
+    # Load data
+    data = pd.read_excel(file_path)
     
     # Strip spaces from column names
     data.columns = data.columns.str.strip()
@@ -68,4 +70,4 @@ if uploaded_file is not None:
         if predicted_quantity is not None:
             st.success(f"Predicted Allocated Quantity for {bidder_name_input} in {month_input}: {predicted_quantity:.2f}")
 else:
-    st.info("Please upload an Excel file.")
+    st.error(f"File '{file_path}' not found. Please ensure the file is in the correct directory.")
